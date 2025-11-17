@@ -11,9 +11,10 @@ async function bootstrap() {
     methods: '*',
     allowedHeaders: '*',
   });
-
+  const port = process.env.PORT || 3000;
   app.useGlobalPipes(new ValidationPipe());
 
-  await app.listen(3000);
+  await app.listen(port);
 }
 bootstrap();
+export default bootstrap;
