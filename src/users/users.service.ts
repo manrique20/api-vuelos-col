@@ -39,10 +39,15 @@ export class UsersService {
         401,
       );
     }
-
-    return this.userRepository.findOne({
+    const loggedUser = await this.userRepository.findOne({
       where: { email: loginUserDto.email, password: loginUserDto.password },
     });
+    return {
+      status: true,
+      data: loggedUser,
+      message: 'Inicio de sesión exitoso',
+      code: 100,
+    };
   }
   async createUser(userObject: CreateUserDto) {
     const userFound = await this.userRepository.findOne({
@@ -63,6 +68,11 @@ export class UsersService {
       role: 'customer',
       ...userObject,
     } as any);
-    return this.userRepository.save(newUser);
+    return {
+      data: await this.userRepository.save(newUser),
+      status: true,
+      code: 100,
+      message: 'Usuario creado exitosamente',
+    };
   }
 }

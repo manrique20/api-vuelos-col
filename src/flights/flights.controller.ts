@@ -21,4 +21,8 @@ export class FlightsController {
   async searchFlights(@Body() filterDto: FilterFlightDto) {
     return this.flightsService.getFilteredFlights(filterDto);
   }
+  @Get('detail/:id')
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.flightsService.getFlightById(id);
+  }
 }

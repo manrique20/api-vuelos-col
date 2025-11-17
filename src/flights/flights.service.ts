@@ -10,8 +10,12 @@ export class FlightsService {
     @InjectRepository(Flights) private flightsRepository: Repository<Flights>,
   ) {}
 
-  getAllFlights() {
-    return this.flightsRepository.find();
+  async getAllFlights() {
+    return {
+      code: 100,
+      status: true,
+      data: await this.flightsRepository.find(),
+    };
   }
 
   private airportCodeMap = {
@@ -98,6 +102,23 @@ export class FlightsService {
     return {
       status: true,
       data: flightsWithCodes,
+      code: 100,
+    };
+  }
+  async getFlightById(flightId: number) {
+    const flight = await this.flightsRepository.findOne({
+      where: { id: flightId },
+    });
+    if (!flight) {
+      return new HttpException(
+        { status: false, error: 'Vuelo no encontrado', code: 404 },
+        404,
+      );
+    }
+
+    return {
+      status: true,
+      data: flight,
       code: 100,
     };
   }
