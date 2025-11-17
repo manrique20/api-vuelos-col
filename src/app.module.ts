@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { UsersModule } from './users/users.module';
 import {TypeOrmModule} from '@nestjs/typeorm'
+import { FlightsModule } from './flights/flights.module';
 @Module({
-  imports: [UsersModule, TypeOrmModule.forRoot({
+  imports: [UsersModule, FlightsModule, TypeOrmModule.forRoot({
     type: 'mysql',
     username: 'root',
     host: 'localhost',

@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 enum Role {
   ADMIN = 'admin',
-  USER = 'user',
+  CUSTOMER = 'customer',
 }
 enum Status {
   ACTIVE = 'active',
@@ -28,20 +28,20 @@ export class Users {
   cellphone: string;
   
   @Column()
-  documentType: string;
+  document_type: string;
   
   @Column()
-  documentNumber: string;
+  document_number: string;
   
   @Column()
-  role: Role;
+  rol: Role;
   
   @Column()
   status: Status;
   
   @Column({type: 'datetime', default: () => 'CURRENT_TIMESTAMP'})
-  createdAt: Date;
+  created_at: Date;
 
   @Column({type: 'datetime', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP'})
-  updatedAt: Date;
+  updated_at: Date;
 }
