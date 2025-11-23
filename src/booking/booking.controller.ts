@@ -31,4 +31,13 @@ export class BookingController {
       code: 100,
     };
   }
+  @Get('user/:id')
+  async getBookingsByUser(@Param('id', ParseIntPipe) id: number) {
+    const bookings = await this.bookingService.getAllReservationsByUser(id);
+    return {
+      status: true,
+      data: bookings,
+      code: 100,
+    };
+  }
 }

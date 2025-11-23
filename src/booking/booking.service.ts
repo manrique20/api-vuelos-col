@@ -38,4 +38,11 @@ export class BookingService {
       code: 100,
     };
   }
+  async getAllReservationsByUser(userId: number) {
+    const reservations = await this.reservationRepository.find({
+      where: { user: { id: userId } },
+      relations: ['flight', 'user'],
+    });
+    return reservations;
+  }
 }
