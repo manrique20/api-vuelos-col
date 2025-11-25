@@ -32,6 +32,9 @@ export class Users {
   
   @Column()
   document_number: string;
+
+  @Column()
+  birthdate: Date;
   
   @Column()
   rol: Role;

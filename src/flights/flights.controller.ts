@@ -5,6 +5,7 @@ import {
   Body,
   Param,
   ParseIntPipe,
+  Patch,
 } from '@nestjs/common';
 import { FlightsService } from './flights.service';
 import { FilterFlightDto } from './dto/filter-flight.dto';
@@ -24,5 +25,16 @@ export class FlightsController {
   @Get('detail/:id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.flightsService.getFlightById(id);
+  }
+  @Patch('update-status/:id')
+  updateStatus(
+    @Param('id', ParseIntPipe) id: number,
+    @Body('status') status: string,
+  ) {
+    return this.flightsService.changeFlightStatus(id, status);
+  }
+  @Post('create-flight')
+  createFlight(@Body() flightData: any) {
+    return this.flightsService.createFlight(flightData);
   }
 }

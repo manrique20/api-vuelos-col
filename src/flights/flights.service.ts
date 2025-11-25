@@ -73,23 +73,24 @@ export class FlightsService {
     }
 
     query.andWhere('flight.available_seats > 0');
-    query.andWhere('flight.status = :status', { status: 'scheduled' });
+    query.andWhere('flight.status = :status', { status: 'active' });
 
     query
       .orderBy('flight.departure_date', 'ASC')
       .addOrderBy('flight.departure_hour', 'ASC');
 
     const flights = await query.getMany();
-
+    console.log(flights);
+    
     if (flights.length === 0) {
       throw new HttpException(
         {
           status: false,
           error:
             'No se encontraron vuelos disponibles con los criterios de búsqueda especificados',
-          code: 404,
+          code: 200,
         },
-        404,
+        200,
       );
     }
 
@@ -119,6 +120,34 @@ export class FlightsService {
     return {
       status: true,
       data: flight,
+      code: 100,
+    };
+  }
+    async changeFlightStatus(flightId: number, status: string) {
+    const flight = await this.flightsRepository.findOne({
+      where: { id: flightId },
+    });
+    if (!flight) {
+      return new HttpException(
+        { status: false, error: 'Vuelo no encontrado', code: 404 },
+        404,
+      );
+    }
+    flight.status = status;
+    await this.flightsRepository.save(flight);
+
+    return {
+      status: true,
+      data: flight,
+      code: 100,
+    };
+  }
+  async createFlight(flightData: any) {
+    const newFlight = this.flightsRepository.create(flightData);
+    await this.flightsRepository.save(newFlight);
+    return {
+      status: true,
+      data: newFlight,
       code: 100,
     };
   }
